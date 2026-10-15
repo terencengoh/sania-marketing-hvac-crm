@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sania Marketing | Advanced HVAC CRM</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Sania Marketing</h1>
+      <p>Advanced HVAC CRM & Job Management</p>
+    </div>
+    <button id="themeToggle" onclick="toggleTheme()">Dark Mode</button>
+  </header>
+
+  <nav>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('leads')">Leads</button>
+    <button onclick="showSection('clients')">Clients</button>
+    <button onclick="showSection('jobs')">Jobs</button>
+    <button onclick="showSection('quotes')">Quotes</button>
+    <button onclick="showSection('calendar')">Calendar</button>
+    <button onclick="showSection('reminders')">Reminders</button>
+    <button onclick="exportAll()">Export CSV</button>
+  </nav>
+
+  <main>
+    <section id="dashboard" class="active">
+      <h2>Dashboard</h2>
+      <div class="stats">
+        <div class="stat-card"><h3 id="leadCount">0</h3><p>Open Leads</p></div>
+        <div class="stat-card"><h3 id="clientCount">0</h3><p>Clients</p></div>
+        <div class="stat-card"><h3 id="jobCount">0</h3><p>Active Jobs</p></div>
+        <div class="stat-card"><h3 id="quoteCount">0</h3><p>Pending Quotes</p></div>
+        <div class="stat-card"><h3 id="quoteTotal">$0</h3><p>Open Quote Value</p></div>
+        <div class="stat-card"><h3 id="reminderCount">0</h3><p>Upcoming Reminders</p></div>
+      </div>
+      <div style="margin-top:1.2rem">
+        <input type="text" id="searchBox" placeholder="Search all records..." oninput="renderAll()">
+      </div>
+      <div style="margin-top:0.8rem">
+        <select id="statusFilter" onchange="renderAll()">
+          <option value="">All statuses</option>
+          <option value="Scheduled">Scheduled</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+          <option value="Draft">Draft</option>
+          <option value="Sent">Sent</option>
+          <option value="Accepted">Accepted</option>
+        </select>
+      </div>
+      <h3 style="margin-top:1.5rem">Upcoming Maintenance Reminders</h3>
+      <div id="upcomingReminders"></div>
+    </section>
+
+    <section id="leads">
+      <h2>Leads</h2>
+      <form id="leadForm">
+        <input type="text" id="leadName" placeholder="Name *" required>
+        <input type="tel" id="leadPhone" placeholder="Phone">
+        <input type="email" id="leadEmail" placeholder="Email">
+        <input type="text" id="leadSource" placeholder="Source">
+        <input type="text" id="leadService" placeholder="Service needed">
+        <input type="text" id="leadEquipment" placeholder="Equipment / size">
+        <input type="text" id="leadAddress" placeholder="Address">
+        <input type="text" id="leadNotes" placeholder="Notes">
+        <input type="text" id="leadOwner" placeholder="Assigned to">
+        <label>Photo note: <input type="file" id="leadPhoto" accept="image/*"></label>
+        <button type="submit">Add Lead</button>
+      </form>
+      <div id="leadList"></div>
+    </section>
+
+    <section id="clients">
+      <h2>Clients</h2>
+      <form id="clientForm">
+        <input type="text" id="clientName" placeholder="Name *" required>
+        <input type="tel" id="clientPhone" placeholder="Phone">
+        <input type="email" id="clientEmail" placeholder="Email">
+        <input type="text" id="clientAddress" placeholder="Address">
+        <input type="text" id="clientSystem" placeholder="System type / size">
+        <input type="text" id="clientNotes" placeholder="Notes">
+        <label>Photo note: <input type="file" id="clientPhoto" accept="image/*"></label>
+        <button type="submit">Add Client</button>
+      </form>
+      <div id="clientList"></div>
+    </section>
+
+    <section id="jobs">
+      <h2>Jobs</h2>
+      <form id="jobForm">
+        <input type="text" id="jobClient" placeholder="Client / Lead *" required>
+        <input type="text" id="jobType" placeholder="Job type">
+        <input type="date" id="jobDate">
+        <select id="jobStatus">
+          <option>Scheduled</option>
+          <option>In Progress</option>
+          <option>Completed</option>
+          <option>On Hold</option>
+        </select>
+        <input type="text" id="jobTech" placeholder="Tech">
+        <input type="text" id="jobNotes" placeholder="Notes">
+        <label>Photo note: <input type="file" id="jobPhoto" accept="image/*"></label>
+        <button type="submit">Add Job</button>
+      </form>
+      <div id="jobList"></div>
+    </section>
+
+    <section id="quotes">
+      <h2>Quotes</h2>
+      <form id="quoteForm">
+        <input type="text" id="quoteClient" placeholder="Client / Lead *" required>
+        <input type="text" id="quoteService" placeholder="Service description">
+        <input type="number" id="quoteAmount" placeholder="Amount ($)" step="0.01">
+        <select id="quoteStatus">
+          <option>Draft</option>
+          <option>Sent</option>
+          <option>Accepted</option>
+          <option>Declined</option>
+        </select>
+        <input type="text" id="quoteNotes" placeholder="Notes">
+        <label>Photo note: <input type="file" id="quotePhoto" accept="image/*"></label>
+        <button type="submit">Add Quote</button>
+      </form>
+      <div id="quoteList"></div>
+    </section>
+
+    <section id="calendar">
+      <h2>Job Calendar</h2>
+      <div id="calendarView"></div>
+    </section>
+
+    <section id="reminders">
+      <h2>Recurring Maintenance Reminders</h2>
+      <form id="reminderForm">
+        <input type="text" id="remClient" placeholder="Client name *" required>
+        <input type="text" id="remService" placeholder="Service (e.g. AC Tune-up)">
+        <input type="date" id="remNext">
+        <select id="remInterval">
+          <option value="3">Every 3 months</option>
+          <option value="6" selected>Every 6 months</option>
+          <option value="12">Every 12 months</option>
+        </select>
+        <input type="text" id="remNotes" placeholder="Notes">
+        <button type="submit">Add Reminder</button>
+      </form>
+      <div id="reminderList"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

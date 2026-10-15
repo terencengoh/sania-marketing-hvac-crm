@@ -1,0 +1,106 @@
+:root {
+  --bg: linear-gradient(135deg, #f0f4f8 0%, #e6eef5 100%);
+  --card: #ffffff;
+  --text: #1a202c;
+  --muted: #64748b;
+  --accent: #3b82f6;
+  --header: linear-gradient(90deg, #0f2c4c 0%, #1a4a7a 100%);
+  --nav: #163a5f;
+  --border: #cbd5e1;
+  --shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+body.dark {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #60a5fa;
+  --header: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+  --nav: #1e293b;
+  --border: #334155;
+  --shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 100vh;
+  transition: background 0.2s, color 0.2s;
+}
+header {
+  background: var(--header);
+  color: white;
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+header h1 { font-size: 1.9rem; font-weight: 700; }
+#themeToggle {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+nav {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.9rem 1rem;
+  background: var(--nav); justify-content: center;
+}
+nav button {
+  background: var(--accent); color: white; border: none;
+  padding: 0.6rem 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 500;
+}
+nav button:hover { filter: brightness(1.1); }
+main { padding: 1.6rem 1.2rem; max-width: 1020px; margin: 0 auto; }
+section { display: none; }
+section.active { display: block; }
+h2 { margin-bottom: 1.1rem; color: var(--text); font-size: 1.55rem; }
+h3 { margin: 1.2rem 0 0.6rem; color: var(--text); }
+form {
+  display: grid; gap: 0.65rem; margin-bottom: 1.6rem;
+  background: var(--card); padding: 1.2rem; border-radius: 12px; box-shadow: var(--shadow);
+}
+input, select, button[type="submit"] {
+  padding: 0.7rem 0.85rem; border: 1.5px solid var(--border); border-radius: 8px; font-size: 1rem;
+  background: var(--card); color: var(--text);
+}
+button[type="submit"] { background: #10b981; color: white; border: none; font-weight: 600; cursor: pointer; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+.stat-card {
+  background: var(--card); padding: 1.2rem 0.8rem; border-radius: 12px; text-align: center;
+  box-shadow: var(--shadow); border-top: 4px solid var(--accent);
+}
+.stat-card h3 { font-size: 2rem; font-weight: 700; }
+.stat-card p { color: var(--muted); font-size: 0.88rem; }
+.item {
+  background: var(--card); padding: 0.95rem 1rem; margin-bottom: 0.7rem; border-radius: 10px;
+  box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: flex-start; gap: 0.8rem;
+  border-left: 4px solid var(--accent);
+}
+.badge {
+  display: inline-block; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+  margin-left: 0.4rem;
+}
+.badge.scheduled, .badge.draft { background: #dbeafe; color: #1e40af; }
+.badge.inprogress, .badge.sent { background: #fef3c7; color: #92400e; }
+.badge.completed, .badge.accepted { background: #d1fae5; color: #065f46; }
+.badge.onhold, .badge.declined { background: #fee2e2; color: #991b1b; }
+.item button, .edit-btn {
+  background: #ef4444; color: white; border: none; padding: 0.35rem 0.65rem; border-radius: 6px;
+  cursor: pointer; font-size: 0.78rem; white-space: nowrap;
+}
+.edit-btn { background: #3b82f6; margin-right: 0.3rem; }
+.photo-thumb { max-width: 120px; max-height: 80px; border-radius: 6px; margin-top: 0.4rem; cursor: pointer; }
+#calendarView, #upcomingReminders { display: grid; gap: 0.6rem; }
+.cal-day, .reminder-item { background: var(--card); padding: 0.9rem; border-radius: 10px; box-shadow: var(--shadow); }
+#searchBox, #statusFilter { width: 100%; margin-bottom: 0.6rem; }
+@media (max-width: 640px) {
+  nav { flex-direction: column; }
+  nav button { width: 100%; }
+  header { flex-direction: column; gap: 0.6rem; text-align: center; }
+}
